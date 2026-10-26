@@ -1,26 +1,207 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #0f172a;
+  --trust: #0284c7;
+  --trust-deep: #0369a1;
+  --bus: #f59e0b;
+  --verify: #10b981;
+  --surface: #f8fafc;
+  --panel: #1e293b;
+  --background: #f8fafc;
+  --foreground: #0f172a;
 }
 
 @theme inline {
+  --color-ink: var(--ink);
+  --color-trust: var(--trust);
+  --color-trust-deep: var(--trust-deep);
+  --color-bus: var(--bus);
+  --color-verify: var(--verify);
+  --color-surface: var(--surface);
+  --color-panel: var(--panel);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --font-hindi: var(--font-devanagari), ui-sans-serif, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: #bae6fd;
+  color: #0f172a;
+}
+
+.grid-fade {
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.14) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse at center, black 15%, transparent 72%);
+}
+
+input[type="range"] {
+  accent-color: #0284c7;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: #e2e8f0;
+  font-family: var(--font-sans);
+}
+
+.bus-marker,
+.stop-marker,
+.campus-marker {
+  background: transparent;
+  border: 0;
+}
+
+.bus-pin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 46px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: white;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.28);
+}
+
+.bus-pin.is-on-time {
+  background: #10b981;
+}
+
+.bus-pin.is-delayed {
+  background: #f59e0b;
+  color: #0f172a;
+}
+
+.bus-pin.is-stopped,
+.bus-pin.is-sos {
+  background: #e11d48;
+}
+
+.bus-pin.is-selected {
+  outline: 3px solid white;
+  box-shadow: 0 0 0 4px #0284c7;
+}
+
+.bus-pin.is-sos {
+  animation: sos-pulse 1.4s ease-out infinite;
+}
+
+.stop-dot {
+  width: 14px;
+  height: 14px;
+  border: 2px solid white;
+  border-radius: 999px;
+  background: #0284c7;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+}
+
+.campus-pin {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 8px;
+  background: #0f172a;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.route-rider {
+  position: absolute;
+  width: 52px;
+  height: 30px;
+  offset-anchor: center;
+  offset-path: path("M 36 430 C 50 360, 80 340, 70 280 S 130 200, 150 150 S 120 80, 168 48");
+  offset-rotate: 0deg;
+  animation: ride 11s linear infinite;
+}
+
+.board-note {
+  animation: note-in 9s ease infinite;
+}
+
+@keyframes ride {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes note-in {
+  0%,
+  8% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  20%,
+  76% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes sos-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(225, 29, 72, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .route-rider,
+  .board-note,
+  .bus-pin.is-sos {
+    animation: none;
+  }
+
+  .route-rider {
+    offset-distance: 62%;
+  }
+
+  .board-note {
+    opacity: 1;
+    transform: none;
+  }
 }
