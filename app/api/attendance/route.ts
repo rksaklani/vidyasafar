@@ -1,9 +1,7 @@
-import { connection } from "next/server";
 import { students } from "@/lib/data/mock-data";
 import { attendanceEventSchema } from "@/lib/schemas";
 
 export async function GET(request: Request) {
-  await connection();
   const schoolId = new URL(request.url).searchParams.get("schoolId");
   const roll = students.filter((student) => !schoolId || student.schoolId === schoolId);
   return Response.json({

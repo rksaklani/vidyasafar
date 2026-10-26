@@ -24,7 +24,7 @@ const devanagari = Noto_Sans_Devanagari({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://vidyasafar.in"),
+  metadataBase: new URL(process.env.URL ?? "https://vidyasafar.netlify.app"),
   title: {
     default: "VidyaSafar — The Safe Journey of Learning",
     template: "%s · VidyaSafar",

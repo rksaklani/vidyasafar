@@ -1,10 +1,8 @@
-import { connection } from "next/server";
 import { buses, routes } from "@/lib/data/mock-data";
 import { projectFleet } from "@/lib/data/telemetry";
 import { telemetryPingSchema } from "@/lib/schemas";
 
 export async function GET() {
-  await connection();
   const now = Date.now();
   const fleet = projectFleet(buses, routes, now).map((bus) => ({
     id: bus.id,
